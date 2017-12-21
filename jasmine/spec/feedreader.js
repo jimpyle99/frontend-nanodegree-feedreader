@@ -25,20 +25,46 @@ $(function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
+    });
 
-
+    describe('URL', function() {
+        it('are defined', function() {
+            for (var x = 0; x < allFeeds.length; x++)    {
+                expect(allFeeds.url).not.toBe(0);
+            };
+        })
+    });
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
 
-
+    describe('URL', function() {
+        it('are defined', function() {
+            for (var x = 0; x < allFeeds.length; x++)    {
+                expect(allFeeds.name).not.toBe(0);
+            };
+        })
+    });
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-    });
 
+    describe('The menu', function() {
+        var $body = $('body'),
+            $hamburger = $body.find('.menu-icon-link'),
+            $menu = $body.find('menu');
+
+        it('hidden menu', function() {
+            expect($body.hasClass('menu-hidden')).toBe(true);
+
+        //end of hidden
+        });
+
+
+    //end of The Menu
+    });
 
     /* TODO: Write a new test suite named "The menu" */
 
@@ -53,6 +79,24 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+
+      describe('Initial Entries', function() {
+          var loadFeed = new loadFeed();
+          var container = $('.feed');
+
+          beforeEach(function(done) {
+              loadFeed(function() {
+                  done();
+              });
+          });
+
+          it('checks for at least one', function() {
+              expect(container).not.toBe(0);
+              done();
+          });
+
+        });
+
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
