@@ -84,19 +84,17 @@ $(function() {
           var container = $('.feed');
           //runs loadFeed to get data
           beforeEach(function(done) {
-              loadFeed(function() {
-
+              loadFeed(0, function() {
                   done();
               });
           });
           //makes sure the .feed is not empty
           it('checks for at least one', function() {
               expect(container).not.toBe(0);
-              done();
           });
           //checks to see if something loads to .feed
           it('one element loads rss to .feed after loadFeed', function(){
-             expect($('.feed').children().length).toBeGreterThan(0);
+             expect($('.feed').children().length).toBeGreaterThan(0);
           });
 
         });
@@ -126,7 +124,7 @@ $(function() {
              });
              //checks to make sure the h2 text is different
              it('Make sure content changes', function() {
-                expect(zero).not.toEqual(second);
+                expect(zero).not.toEqual(one);
              });
          });
 
