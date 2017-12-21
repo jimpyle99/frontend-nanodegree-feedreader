@@ -26,11 +26,11 @@ $(function() {
             expect(allFeeds.length).not.toBe(0);
         });
     });
-
+    //created a for loop to call each URL to make sure there is something in it
     describe('URL', function() {
         it('are defined', function() {
             for (var x = 0; x < allFeeds.length; x++)    {
-                expect(allFeeds.url).not.toBe(0);
+                expect(allFeeds.length).not.toBe(0);
             };
         })
     });
@@ -38,8 +38,8 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-
-    describe('URL', function() {
+    //another for look to make sure the name has something inside
+    describe('name', function() {
         it('are defined', function() {
             for (var x = 0; x < allFeeds.length; x++)    {
                 expect(allFeeds.name).not.toBe(0);
@@ -50,7 +50,7 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-
+    //make sure the hamburger menu is hidden when loading the page
     describe('The menu', function() {
         var $body = $('body'),
             $hamburger = $body.find('.menu-icon-link'),
@@ -79,20 +79,24 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-
-      describe('Initial Entries', function() {
-          var loadFeed = new loadFeed();
+    //declare variables
+    describe('Initial Entries', function() {
           var container = $('.feed');
-
+          //runs loadFeed to get data
           beforeEach(function(done) {
               loadFeed(function() {
+
                   done();
               });
           });
-
+          //makes sure the .feed is not empty
           it('checks for at least one', function() {
               expect(container).not.toBe(0);
               done();
+          });
+          //checks to see if something loads to .feed
+          it('one element loads rss to .feed after loadFeed', function(){
+             expect($('.feed').children().length).toBeGreterThan(0);
           });
 
         });
@@ -106,6 +110,25 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
+         //set variables and run loadFeed
+         describe('New Feed Selection', function() {
+             var container = $('.feed');
+             var zero, one;
+             //make sure the text in h2 is put into said variable
+             beforeEach(function(done) {
+                 loadFeed(0, function() {
+                     zero = $('.feed').find('h2').text();
+                     loadFeed(1, function() {
+                        one =  $('.feed').find('h2').text();
+                     });
+                     done();
+                 });
+             });
+             //checks to make sure the h2 text is different
+             it('Make sure content changes', function() {
+                expect(zero).not.toEqual(second);
+             });
+         });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
 
