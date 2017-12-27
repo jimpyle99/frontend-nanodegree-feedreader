@@ -13,6 +13,9 @@ $(function() {
     * a related set of tests. This suite is all about the RSS
     * feeds definitions, the allFeeds variable in our application.
     */
+    /*will need some variables*/
+    let $body = $('body');
+
     describe('RSS Feeds', function() {
         /* This is our first test - it tests to make sure that the
          * allFeeds variable has been defined and that it is not
@@ -27,110 +30,83 @@ $(function() {
         });
     });
     //created a for loop to call each URL to make sure there is something in it
-    describe('URL', function() {
+    describe('allFeeds object has at least one URL', function() {
         it('are defined', function() {
-            let urlGood = false;
-
-            allFeeds.forEach(function(feed) {
-                if((typeof(feed.url) === 'string' && feed.url.length)) urlGood = true;
-            });
-        expect(urlGood).toBe(true);
+            for (var x = 0; x < allFeeds.length; x++)    {
+                expect(allFeeds[x].url).toBeDefined();
+                expect(allFeeds[x].url.length).not.toBe(0);
+            }
         });
     });
-
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
     //another for look to make sure the name has something inside
-    describe('name', function() {
+    describe('allFeeds object has at least one name', function() {
         it('are defined', function() {
-            let namesGood = false;
-
-            allFeeds.forEach(function(feed) {
-                if ((typeof(feed.name) === 'string' && feed.name.length)) namesGood = true;
-            });
-        expect(namesGood).toBe(true);
-        });
+            for (var x = 0; x < allFeeds.length; x++)    {
+                expect(allFeeds[x].name).toBeDefined();
+                expect(allFeeds[x].name.length).not.toBe(0);
+            };
+        })
     });
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+    //make sure the hamburger menu is hidden when loading the page
+    describe('The menu', function() {
+        let $hamburger = $body.find('.menu-icon-link');
+        /* TODO: Write a new test suite named "The menu" */
 
-
-
-    //end of The Menu
-    });
-
-    /* TODO: Write a new test suite named "The menu" */
-
-    describe('The Menu', function() {
-        var $body = $('body'),
-            $menuIcon = $body.find('.menu-icon-link'),
-            $menu = $body.find('.menu');
-            //make sure the hamburger menu is hidden when loading the page
             /* TODO: Write a test that ensures the menu element is
              * hidden by default. You'll have to analyze the HTML and
              * the CSS to determine how we're performing the
              * hiding/showing of the menu element.
              */
-        describe('The menu starts hidden', function() {
-
-            it('hidden menu', function() {
-                expect($body.hasClass('menu-hidden')).toBe(true);
-
-            //end of hidden
-            });
-            /* TODO: Write a test that ensures the menu changes
-             * visibility when the menu icon is clicked. This test
-             * should have two expectations: does the menu display when
-             * clicked and does it hide when clicked again.
-             */
-        describe('The menu shows', function (done){
-
-            //make click event
-            $menuIcon.click();
-            expect($body.hasClass('menu-hidden')).toBe(false);
-
-            setTimeout(function() {
-                expect($menu.offset().left).toBe(0);
-                done();
-            }, 250);
-        });
-
-        it('hidden icon', function(done) {
-            $body.removeClass('menu-hidden');
-
-            $menuIcon.click();
+        it('hidden menu', function() {
             expect($body.hasClass('menu-hidden')).toBe(true);
 
-            setTimeout(funciton() {
-                expect($menu.offset().left + $menu.width() <= 0).toBe(true));
-                done();
-            }, 250);
+        //end of hidden
         });
+        /* TODO: Write a test that ensures the menu changes
+         * visibility when the menu icon is clicked. This test
+         * should have two expectations: does the menu display when
+         * clicked and does it hide when clicked again.
+         */
+         it ('changes visibility when hamburger icon is clicked', function() {
+            $('.menu-icon-link').trigger('click');
+            expect($body.hasClass('menu-hidden')).toBe(false);
 
+            $('.menu-icon-link').trigger('click');
+            expect($body.hasClass('menu-hidden')).toBe(true);
+         });
 
-
-
-
+    //end of The Menu
     });
+
+
+
+
+    //declare variables
     describe('Initial Entries', function() {
           var container = $('.feed');
+          var entryLink = $('.entry-link');
           //runs loadFeed to get data
           beforeEach(function(done) {
               loadFeed(0, done);
           });
-    });
           //makes sure the .feed is not empty
-          it('checks for at least one feed', function() {
-              expect(container.length).not.toBe(0);
+          it('checks for at least one', function() {
+              expect(container.children.length).not.toBe(0);
           });
           //checks to see if something loads to .feed
           it('one element loads rss to .feed after loadFeed', function(){
-             expect($('.feed').css('entry-link')).toBe(true);
+             expect(container.hasClass(entryLink)).toBeDefined();
           });
+
+        });
 
 
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -143,16 +119,17 @@ $(function() {
          */
          //set variables and run loadFeed
          describe('New Feed Selection', function() {
-             var container = $('.feed');
-             var zero, one;
+             let container = $('.feed');
+             let zero, one;
              //make sure the text in h2 is put into said variable
              beforeEach(function(done) {
                  loadFeed(0, function() {
                      zero = $('.feed').find('h2').text();
                      loadFeed(1, function() {
                         one =  $('.feed').find('h2').text();
+                        done();
                      });
-                     done();
+
                  });
              });
              //checks to make sure the h2 text is different
@@ -167,4 +144,4 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-});
+}());
