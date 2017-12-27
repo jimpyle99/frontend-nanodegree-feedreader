@@ -29,11 +29,15 @@ $(function() {
     //created a for loop to call each URL to make sure there is something in it
     describe('URL', function() {
         it('are defined', function() {
-            for (var x = 0; x < allFeeds.length; x++)    {
-                expect(allFeeds.length).not.toBe(0);
-            };
-        })
+            let urlGood = false;
+
+            allFeeds.forEach(function(feed) {
+                if((typeof(feed.url) === 'string' && feed.url.length)) urlGood = true;
+            });
+        expect(urlGood).toBe(true);
+        });
     });
+
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
@@ -41,26 +45,19 @@ $(function() {
     //another for look to make sure the name has something inside
     describe('name', function() {
         it('are defined', function() {
-            for (var x = 0; x < allFeeds.length; x++)    {
-                expect(allFeeds.name).not.toBe(0);
-            };
-        })
+            let namesGood = false;
+
+            allFeeds.forEach(function(feed) {
+                if ((typeof(feed.name) === 'string' && feed.name.length)) namesGood = true;
+            });
+        expect(namesGood).toBe(true);
+        });
     });
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-    //make sure the hamburger menu is hidden when loading the page
-    describe('The menu', function() {
-        var $body = $('body'),
-            $hamburger = $body.find('.menu-icon-link'),
-            $menu = $body.find('menu');
 
-        it('hidden menu', function() {
-            expect($body.hasClass('menu-hidden')).toBe(true);
-
-        //end of hidden
-        });
 
 
     //end of The Menu
@@ -68,36 +65,72 @@ $(function() {
 
     /* TODO: Write a new test suite named "The menu" */
 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+    describe('The Menu', function() {
+        var $body = $('body'),
+            $menuIcon = $body.find('.menu-icon-link'),
+            $menu = $body.find('.menu');
+            //make sure the hamburger menu is hidden when loading the page
+            /* TODO: Write a test that ensures the menu element is
+             * hidden by default. You'll have to analyze the HTML and
+             * the CSS to determine how we're performing the
+             * hiding/showing of the menu element.
+             */
+        describe('The menu starts hidden', function() {
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
-    //declare variables
+            it('hidden menu', function() {
+                expect($body.hasClass('menu-hidden')).toBe(true);
+
+            //end of hidden
+            });
+            /* TODO: Write a test that ensures the menu changes
+             * visibility when the menu icon is clicked. This test
+             * should have two expectations: does the menu display when
+             * clicked and does it hide when clicked again.
+             */
+        describe('The menu shows', function (done){
+
+            //make click event
+            $menuIcon.click();
+            expect($body.hasClass('menu-hidden')).toBe(false);
+
+            setTimeout(function() {
+                expect($menu.offset().left).toBe(0);
+                done();
+            }, 250);
+        });
+
+        it('hidden icon', function(done) {
+            $body.removeClass('menu-hidden');
+
+            $menuIcon.click();
+            expect($body.hasClass('menu-hidden')).toBe(true);
+
+            setTimeout(funciton() {
+                expect($menu.offset().left + $menu.width() <= 0).toBe(true));
+                done();
+            }, 250);
+        });
+
+
+
+
+
+    });
     describe('Initial Entries', function() {
           var container = $('.feed');
           //runs loadFeed to get data
           beforeEach(function(done) {
-              loadFeed(0, function() {
-                  done();
-              });
+              loadFeed(0, done);
           });
+    });
           //makes sure the .feed is not empty
-          it('checks for at least one', function() {
-              expect(container).not.toBe(0);
+          it('checks for at least one feed', function() {
+              expect(container.length).not.toBe(0);
           });
           //checks to see if something loads to .feed
           it('one element loads rss to .feed after loadFeed', function(){
-             expect($('.feed').children().length).toBeGreaterThan(0);
+             expect($('.feed').css('entry-link')).toBe(true);
           });
-
-        });
 
 
     /* TODO: Write a new test suite named "Initial Entries" */
@@ -134,4 +167,4 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-}());
+});
